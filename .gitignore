@@ -1,0 +1,28 @@
+# Visual Studio
+*.vscode
+*.vs
+
+# Build folders
+[Dd]ebug/
+[Rr]elease/
+[Bb]uild/
+[Bb]in/
+[Ll]og/
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Executables
+*.exe
+*.out
+*.app
