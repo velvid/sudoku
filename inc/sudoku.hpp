@@ -38,13 +38,13 @@ public:
     void reset_player();
 
     // Returns const reference to the solution grid.
-    const grid& get_solution();
+    const grid& solution_grid();
 
     // Returns const reference to the question grid.
-    const grid& get_question();
+    const grid& question_grid();
 
     // Returns const reference to the player grid.
-    const grid& get_player();
+    const grid& player_grid();
 
 private:
     // Clear all elements of grid to 0.

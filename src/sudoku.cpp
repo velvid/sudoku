@@ -66,17 +66,17 @@ void sudoku::reset_player()
     player = question;
 }
 
-const grid& sudoku::get_solution()
+const grid& sudoku::solution_grid()
 {
     return solution;
 }
 
-const grid& sudoku::get_question()
+const grid& sudoku::question_grid()
 {
     return question;
 }
 
-const grid& sudoku::get_player()
+const grid& sudoku::player_grid()
 {
     return player;
 }
@@ -148,8 +148,6 @@ void sudoku::fill(grid& board)
 
 sudoku::result sudoku::dig_holes(grid& board, uint8_t amount_to_dig)
 {
-    result res = result::ok;
-
     // vector of holes to dig
     std::vector<cell> holes;
     for (uint8_t row = 0; row < 9; ++row)
@@ -190,10 +188,10 @@ sudoku::result sudoku::dig_holes(grid& board, uint8_t amount_to_dig)
 
     if (holes_dug < amount_to_dig)
     {
-        res = result::not_fully_dug;
+        return result::not_fully_dug;
     }
 
-    return res;
+    return result::ok;
 }
 
 bool sudoku::is_unambiguous(grid& board)

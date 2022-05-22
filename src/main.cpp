@@ -1,6 +1,11 @@
 #include "sudoku.hpp"
 #include "print_utility.hpp"
 
+#include <fmt/core.h>
+#include <fmt/format.h>
+#include <fmt/color.h>
+#include <fmt/ostream.h>
+
 #include <iostream>
 #include <regex>
 #include <string>
@@ -14,8 +19,8 @@ static const std::wstring instructions =
     L"help                  Print these instructions.\n"
     L"new                   Generate and start a new game.\n"
     L"[a-z][1-9] [value]    Enter a value in the grid.\n"
-    L"                      Number and letter can be switched.\n"
-    L"                      Value can be within interval [0,9] (0 to erase).\n"
+    L"                        Number and letter can be switched.\n"
+    L"                        Value can be within interval [0,9] (0 to erase).\n"
     L"check                 Check if your answer is correct.\n"
     L"show                  Show the player again grid.\n"
     L"reset                 Reset your grid to the original question.\n"
@@ -26,7 +31,7 @@ static const std::wstring instructions =
 int main()
 {
 #if defined(_WIN32)
-    _setmode(_fileno(stdout), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U8TEXT);
 #endif
 
     std::wcout << instructions;
@@ -35,7 +40,7 @@ int main()
     sudoku game;
     game.init();
 
-    std::wcout << game.get_question();
+    std::wcout << game.question_grid();
     std::wcout << std::endl;
 
     std::string prompt;
@@ -67,7 +72,7 @@ int main()
         if (prompt == "new")
         {
             game.init();
-            std::wcout << game.get_question();
+            std::wcout << game.question_grid();
             std::wcout << std::endl;
             continue;
         }
@@ -81,7 +86,7 @@ int main()
 
         if (prompt == "show")
         {
-            std::wcout << game.get_question();
+            std::wcout << game.player_grid();
             std::wcout << std::endl;
             continue;
         }
@@ -89,14 +94,14 @@ int main()
         if (prompt == "reset")
         {
             game.reset_player();
-            std::wcout << game.get_player();
+            std::wcout << game.player_grid();
             std::wcout << std::endl;
             continue;
         }
 
         if (prompt == "cheat")
         {
-            std::wcout << game.get_solution();
+            std::wcout << game.solution_grid();
             std::wcout << std::endl;
             continue;
         }
@@ -112,7 +117,7 @@ int main()
             sudoku::result result = game.enter_value(row, col, val);
 
             if (result == sudoku::result::ok)
-                std::wcout << game.get_player();
+                std::wcout << game.player_grid();
             else if (result == sudoku::result::index_out_of_bounds) // regex makes this impossible
                 std::wcout << L"Indices out of bounds!\n";
             else if (result == sudoku::result::value_out_of_bounds) // regex makes this impossible
@@ -133,7 +138,7 @@ int main()
             sudoku::result result = game.enter_value(row, col, val);
 
             if (result == sudoku::result::ok)
-                std::wcout << game.get_player();
+                std::wcout << game.player_grid();
             else if (result == sudoku::result::index_out_of_bounds) // regex makes this impossible
                 std::wcout << L"Indices out of bounds!\n";
             else if (result == sudoku::result::value_out_of_bounds) // regex makes this impossible
