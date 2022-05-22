@@ -8,7 +8,9 @@ namespace rng
 	// ideally would use std::random_device{}(), but not portable
 	// seeding with timestamp is good enough
 	static std::default_random_engine engine(
-		std::chrono::system_clock::now().time_since_epoch().count()
+		static_cast<unsigned int>(
+			std::chrono::system_clock::now().time_since_epoch().count()
+		)
 	);
 
 	// generate random number whithin interval [lo, hi] with uniform distribution
