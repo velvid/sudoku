@@ -1,4 +1,4 @@
-#include "sudoku/print_utility.hpp"
+#include "sudoku/format.hpp"
 #include "sudoku/sudoku.hpp"
 
 #include <fmt/color.h>
