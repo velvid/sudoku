@@ -115,6 +115,7 @@ void sudoku::game::fill(grid& board)
             }
 
             // randomly select a number from candidates
+            // the cast from size_t to int should never overflow, since candidates.size() is bounded by size 9
             size_t r = rng::rand_int(0, static_cast<int>(candidates.size() - 1));
             uint8_t num = candidates[r];
 

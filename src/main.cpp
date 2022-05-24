@@ -16,9 +16,9 @@ static const std::wstring instructions =
     L"[a-z][1-9] [value]    Enter a value in the grid.\n"
     L"                      Number and letter can be switched.\n"
     L"                      Value can be within interval [0,9] (0 to erase).\n"
-    L"check                 Check if your answer is correct.\n"
-    L"show                  Show the player again grid.\n"
-    L"reset                 Reset your grid to the original question.\n"
+    L"check                 Check if answer is correct.\n"
+    L"show                  Show the player grid again.\n"
+    L"reset                 Remove all player-inputted cells.\n"
     L"cheat                 Show the solution.\n"
     L"exit                  Exit the program.\n"
 ;
@@ -38,7 +38,7 @@ int main()
     std::wcout << sudoku::format(game.question_grid());
     std::wcout << std::endl;
 
-    std::string prompt;
+    std::string input;
     unsigned long wrong_input_count = 0;
 
     const std::regex regex[] = {
@@ -49,22 +49,22 @@ int main()
     while (true)
     {
         std::wcout << L">>> ";
-        std::getline(std::cin, prompt);
+        std::getline(std::cin, input);
         std::wcout << std::endl;
 
-        if (prompt == "exit")
+        if (input == "exit")
         {
             break;
         }
 
-        if (prompt == "help")
+        if (input == "help")
         {
             std::wcout << instructions;
             std::wcout << std::endl;
             continue;
         }
 
-        if (prompt == "new")
+        if (input == "new")
         {
             game.init();
             std::wcout << sudoku::format(game.question_grid());
@@ -72,21 +72,21 @@ int main()
             continue;
         }
 
-        if (prompt == "check")
+        if (input == "check")
         {
             std::wcout << (game.check() ? L"Correct!\n" : L"Incorrect...\n");
             std::wcout << std::endl;
             continue;
         }
 
-        if (prompt == "show")
+        if (input == "show")
         {
             std::wcout << sudoku::format(game.player_grid(), game.question_grid());
             std::wcout << std::endl;
             continue;
         }
 
-        if (prompt == "reset")
+        if (input == "reset")
         {
             game.reset_player();
             std::wcout << sudoku::format(game.question_grid());
@@ -94,7 +94,7 @@ int main()
             continue;
         }
 
-        if (prompt == "cheat")
+        if (input == "cheat")
         {
             std::wcout << sudoku::format(game.solution_grid());
             std::wcout << std::endl;
@@ -103,7 +103,7 @@ int main()
 
         std::smatch matches;
 
-        if (std::regex_match(prompt, matches, regex[0]))
+        if (std::regex_match(input, matches, regex[0]))
         {
             uint8_t col = matches[1].str().c_str()[0] - 'a';
             uint8_t row = matches[2].str().c_str()[0] - '1';
@@ -124,7 +124,7 @@ int main()
             continue;
         }
 
-        if (std::regex_match(prompt, matches, regex[1]))
+        if (std::regex_match(input, matches, regex[1]))
         {
             uint8_t row = matches[1].str().c_str()[0] - '1';
             uint8_t col = matches[2].str().c_str()[0] - 'a';
