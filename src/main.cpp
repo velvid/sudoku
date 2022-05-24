@@ -1,12 +1,6 @@
 #include "sudoku/format.hpp"
 #include "sudoku/sudoku.hpp"
 
-#include <fmt/color.h>
-#include <fmt/core.h>
-#include <fmt/format.h>
-#include <fmt/ostream.h>
-#include <fmt/xchar.h>
-
 #include <iostream>
 #include <regex>
 #include <string>
@@ -20,8 +14,8 @@ static const std::wstring instructions =
     L"help                  Print these instructions.\n"
     L"new                   Generate and start a new game.\n"
     L"[a-z][1-9] [value]    Enter a value in the grid.\n"
-    L"                        Number and letter can be switched.\n"
-    L"                        Value can be within interval [0,9] (0 to erase).\n"
+    L"                      Number and letter can be switched.\n"
+    L"                      Value can be within interval [0,9] (0 to erase).\n"
     L"check                 Check if your answer is correct.\n"
     L"show                  Show the player again grid.\n"
     L"reset                 Reset your grid to the original question.\n"
