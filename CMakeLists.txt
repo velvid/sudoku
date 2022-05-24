@@ -17,7 +17,7 @@ src/main.cpp
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/inc)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
 target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt-header-only)

@@ -1,4 +1,4 @@
-#include "sudoku.hpp"
+#include "sudoku/sudoku.hpp"
 
 #include "random_utility.hpp"
 
@@ -19,7 +19,7 @@ inline bool valid_value(uint8_t val)
     return (val >= 0 && val <= 9);
 }
 
-void sudoku::init()
+void sudoku::game::init()
 {
     // generate solution
     fill(solution);
@@ -33,12 +33,12 @@ void sudoku::init()
     player = question;
 }
 
-bool sudoku::check() const
+bool sudoku::game::check() const
 {
     return player == solution;
 }
 
-sudoku::result sudoku::enter_value(uint8_t row, uint8_t col, uint8_t value)
+sudoku::result sudoku::game::enter_value(uint8_t row, uint8_t col, uint8_t value)
 {
     if (!valid_index(row) || !valid_index(col))
     {
@@ -61,32 +61,32 @@ sudoku::result sudoku::enter_value(uint8_t row, uint8_t col, uint8_t value)
     return result::ok;
 }
 
-void sudoku::reset_player()
+void sudoku::game::reset_player()
 {
     player = question;
 }
 
-const grid& sudoku::solution_grid()
+const sudoku::grid& sudoku::game::solution_grid()
 {
     return solution;
 }
 
-const grid& sudoku::question_grid()
+const sudoku::grid& sudoku::game::question_grid()
 {
     return question;
 }
 
-const grid& sudoku::player_grid()
+const sudoku::grid& sudoku::game::player_grid()
 {
     return player;
 }
 
-void sudoku::clear(grid& board)
+void sudoku::game::clear(grid& board)
 {
     std::fill(&board[0][0], &board[0][0] + sizeof(board), 0);
 }
 
-void sudoku::fill(grid& board)
+void sudoku::game::fill(grid& board)
 {
     bool redo = true;
 
@@ -115,7 +115,7 @@ void sudoku::fill(grid& board)
             }
 
             // randomly select a number from candidates
-            size_t r = rng::rand_int(0, candidates.size() - 1);
+            size_t r = rng::rand_int(0, static_cast<int>(candidates.size() - 1));
             uint8_t num = candidates[r];
 
             // assign number to board
@@ -146,7 +146,7 @@ void sudoku::fill(grid& board)
     }
 }
 
-sudoku::result sudoku::dig_holes(grid& board, uint8_t amount_to_dig)
+sudoku::result sudoku::game::dig_holes(grid& board, uint8_t amount_to_dig)
 {
     // vector of holes to dig
     std::vector<cell> holes;
@@ -194,7 +194,7 @@ sudoku::result sudoku::dig_holes(grid& board, uint8_t amount_to_dig)
     return result::ok;
 }
 
-bool sudoku::is_unambiguous(grid& board)
+bool sudoku::game::is_unambiguous(grid& board)
 {
     std::vector<cell> holes;
 

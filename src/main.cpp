@@ -1,10 +1,11 @@
-#include "sudoku.hpp"
-#include "print_utility.hpp"
+#include "sudoku/print_utility.hpp"
+#include "sudoku/sudoku.hpp"
 
+#include <fmt/color.h>
 #include <fmt/core.h>
 #include <fmt/format.h>
-#include <fmt/color.h>
 #include <fmt/ostream.h>
+#include <fmt/xchar.h>
 
 #include <iostream>
 #include <regex>
@@ -37,10 +38,10 @@ int main()
     std::wcout << instructions;
     std::wcout << std::endl;
 
-    sudoku game;
+    sudoku::game game;
     game.init();
 
-    std::wcout << game.question_grid();
+    std::wcout << sudoku::format(game.question_grid());
     std::wcout << std::endl;
 
     std::string prompt;
@@ -72,7 +73,7 @@ int main()
         if (prompt == "new")
         {
             game.init();
-            std::wcout << game.question_grid();
+            std::wcout << sudoku::format(game.question_grid());
             std::wcout << std::endl;
             continue;
         }
@@ -86,7 +87,7 @@ int main()
 
         if (prompt == "show")
         {
-            std::wcout << game.player_grid();
+            std::wcout << sudoku::format(game.player_grid(), game.question_grid());
             std::wcout << std::endl;
             continue;
         }
@@ -94,14 +95,14 @@ int main()
         if (prompt == "reset")
         {
             game.reset_player();
-            std::wcout << game.player_grid();
+            std::wcout << sudoku::format(game.question_grid());
             std::wcout << std::endl;
             continue;
         }
 
         if (prompt == "cheat")
         {
-            std::wcout << game.solution_grid();
+            std::wcout << sudoku::format(game.solution_grid());
             std::wcout << std::endl;
             continue;
         }
@@ -117,7 +118,7 @@ int main()
             sudoku::result result = game.enter_value(row, col, val);
 
             if (result == sudoku::result::ok)
-                std::wcout << game.player_grid();
+                std::wcout << sudoku::format(game.player_grid(), game.question_grid());
             else if (result == sudoku::result::index_out_of_bounds) // regex makes this impossible
                 std::wcout << L"Indices out of bounds!\n";
             else if (result == sudoku::result::value_out_of_bounds) // regex makes this impossible
@@ -138,7 +139,7 @@ int main()
             sudoku::result result = game.enter_value(row, col, val);
 
             if (result == sudoku::result::ok)
-                std::wcout << game.player_grid();
+                std::wcout << sudoku::format(game.player_grid(), game.question_grid());
             else if (result == sudoku::result::index_out_of_bounds) // regex makes this impossible
                 std::wcout << L"Indices out of bounds!\n";
             else if (result == sudoku::result::value_out_of_bounds) // regex makes this impossible
