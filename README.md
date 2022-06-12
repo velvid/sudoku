@@ -1,8 +1,6 @@
 # Sudoku
 
-Sudoku implemented in C++. The front-end and back-end are decoupled to allow developers to implement their own front-end interface (using [`sudoku.hpp`](/inc/sudoku.hpp)) should they wish. At the moment, [`main.cpp`](src/main.cpp) file is using an optional [`print_utility.hpp`](inc/print_utility.hpp) to drive console output as a front-end interface.
-
-You have to compile the executable yourself.
+Sudoku implemented in C++. Could be used as a library by including ["sudoku/sudoku.hpp"](include/sudoku.hpp), which can handle all logic to generate a sudoku grid and check player solution. Game logic is handled in ["main.cpp"](src/main.cpp). 
 
 ## How to play
 
@@ -63,8 +61,9 @@ Prints sudoku grid to console, and user can interact via textual inputs.
 
 ## TODO
 
-- Re-implement [`print_utility.hpp`](inc/print_utility.hpp) to be portable print using [fmt](https://github.com/fmtlib/fmt) library.
+- Re-implement [`format.hpp`](include/format.hpp) to be portable print using [fmt](https://github.com/fmtlib/fmt) library.
 - Performance optimization using multi-threading and bitsets instead of boolean arrays.
+- Unit testing of each function to profile and optimize.
 - Implement proper backtracking algorithm when hitting a dead-end when generating a grid.
 - In `sudoku::init()` function, handle cases when specified number of holes aren't dug, or if grid is improperly generated.
 - Proper logging for debug builds.
