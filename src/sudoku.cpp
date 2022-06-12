@@ -6,8 +6,7 @@
 #include <numeric>
 #include <vector>
 
-namespace sudoku
-{
+namespace sudoku {
 
 // checks if index within bounds
 inline bool valid_index(uint8_t index)
