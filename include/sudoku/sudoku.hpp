@@ -2,8 +2,7 @@
 
 #include "shared_defs.hpp"
 
-namespace sudoku
-{
+namespace sudoku {
 
 class game
 {
@@ -59,4 +58,4 @@ private:
     grid player {}; // copy of the question for player to manipulate
 };
 
-} // namespace sudoku
+}

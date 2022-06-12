@@ -3,8 +3,7 @@
 #include <array>
 #include <cstdint>
 
-namespace sudoku
-{
+namespace sudoku {
 
 enum class result : uint8_t
 {
@@ -22,4 +21,4 @@ enum class result : uint8_t
 using cell = std::pair<uint8_t, uint8_t>;
 using grid = std::array<std::array<uint8_t, 9>, 9>;
 
-} // namespace sudoku
+}
