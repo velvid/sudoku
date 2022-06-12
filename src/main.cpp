@@ -29,28 +29,21 @@ int main()
     _setmode(_fileno(stdout), _O_U8TEXT);
 #endif
 
-    std::wcout << instructions;
-    std::wcout << std::endl;
+    std::wcout << instructions << L"\n";
 
     sudoku::game game;
-    game.init();
 
-    std::wcout << sudoku::format(game.question_grid());
-    std::wcout << std::endl;
+    game.init();
+    std::wcout << sudoku::format(game.question_grid()) << L"\n";
 
     std::string input;
     unsigned long wrong_input_count = 0;
-
-    const std::regex regex[] = {
-        std::regex("([a-i])([1-9]) ([0-9])"),
-        std::regex("([1-9])([a-i]) ([0-9])")
-    };
 
     while (true)
     {
         std::wcout << L">>> ";
         std::getline(std::cin, input);
-        std::wcout << std::endl;
+        std::wcout << L"\n";
 
         if (input == "exit")
         {
@@ -59,77 +52,64 @@ int main()
 
         if (input == "help")
         {
-            std::wcout << instructions;
-            std::wcout << std::endl;
+            std::wcout << instructions << L"\n";
             continue;
         }
 
         if (input == "new")
         {
             game.init();
-            std::wcout << sudoku::format(game.question_grid());
-            std::wcout << std::endl;
+            std::wcout << sudoku::format(game.question_grid()) << L"\n";
             continue;
         }
 
         if (input == "check")
         {
-            std::wcout << (game.check() ? L"Correct!\n" : L"Incorrect...\n");
-            std::wcout << std::endl;
+            std::wcout << (game.check() ? L"Correct!\n" : L"Incorrect...\n") << L"\n";
             continue;
         }
 
         if (input == "show")
         {
-            std::wcout << sudoku::format(game.player_grid(), game.question_grid());
-            std::wcout << std::endl;
+            std::wcout << sudoku::format(game.player_grid(), game.question_grid()) << L"\n";
             continue;
         }
 
         if (input == "reset")
         {
             game.reset_player();
-            std::wcout << sudoku::format(game.question_grid());
-            std::wcout << std::endl;
+            std::wcout << sudoku::format(game.question_grid()) << L"\n";
             continue;
         }
 
         if (input == "cheat")
         {
-            std::wcout << sudoku::format(game.solution_grid());
-            std::wcout << std::endl;
+            std::wcout << sudoku::format(game.solution_grid()) << L"\n";
             continue;
         }
 
+        // perform a regex to parse command for grid input
         std::smatch matches;
 
-        if (std::regex_match(input, matches, regex[0]))
+        uint8_t col;
+        uint8_t row;
+        uint8_t val;
+
+        if (std::regex_match(input, matches,std::regex{"([a-i])([1-9]) ([0-9])"}))
         {
-            uint8_t col = matches[1].str().c_str()[0] - 'a';
-            uint8_t row = matches[2].str().c_str()[0] - '1';
-            uint8_t val = matches[3].str().c_str()[0] - '0';
-
-            sudoku::result result = game.enter_value(row, col, val);
-
-            if (result == sudoku::result::ok)
-                std::wcout << sudoku::format(game.player_grid(), game.question_grid());
-            else if (result == sudoku::result::index_out_of_bounds) // regex makes this impossible
-                std::wcout << L"Indices out of bounds!\n";
-            else if (result == sudoku::result::value_out_of_bounds) // regex makes this impossible
-                std::wcout << L"Value out of bounds!\n";
-            else if (result == sudoku::result::attempted_overwrite)
-                std::wcout << L"Can't modify a clue!\n";
-
-            std::wcout << std::endl;
-            continue;
+            col = matches[1].str().c_str()[0] - 'a';
+            row = matches[2].str().c_str()[0] - '1';
+            val = matches[3].str().c_str()[0] - '0';
+        }
+        else if (std::regex_match(input, matches, std::regex{"([1-9])([a-i]) ([0-9])"}))
+        {
+            row = matches[1].str().c_str()[0] - '1';
+            col = matches[2].str().c_str()[0] - 'a';
+            val = matches[3].str().c_str()[0] - '0';
         }
 
-        if (std::regex_match(input, matches, regex[1]))
+        if (!matches.empty())
         {
-            uint8_t row = matches[1].str().c_str()[0] - '1';
-            uint8_t col = matches[2].str().c_str()[0] - 'a';
-            uint8_t val = matches[3].str().c_str()[0] - '0';
-
             sudoku::result result = game.enter_value(row, col, val);
 
             if (result == sudoku::result::ok)
@@ -141,14 +121,14 @@ int main()
             else if (result == sudoku::result::attempted_overwrite)
                 std::wcout << L"Can't modify a clue!\n";
 
-            std::wcout << std::endl;
+            std::wcout << L"\n";
             continue;
         }
 
         // default case, assume wrong input
         if (++wrong_input_count >= 3)
         {
-            std::wcout << L"Need help with controls? Enter 'help'\n" << std::endl;
+            std::wcout << L"Need help with controls? Enter 'help'\n\n";
             wrong_input_count = 0;
         }
     }
